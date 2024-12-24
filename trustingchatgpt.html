@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Christmas Website</title>
+    <style>
+        /* General reset and body setup */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-image: url('https://images.unsplash.com/photo-1543832924-bf6732c4e950?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=1080'); /* Festive background */
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            color: white; /* Text color for visibility */
+        }
+
+        /* Overlay to darken background */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        /* Welcome message box styling */
+        .message-box {
+            display: none;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 24px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            margin: 0 auto;
+            color: #333; /* Dark text color for readability */
+        }
+
+        /* Input box styling */
+        .input-box {
+            display: none;
+            padding: 10px;
+            font-size: 18px;
+            width: 200px;
+            margin: 20px 0;
+            border-radius: 5px;
+            border: 2px solid #ddd;
+            color: #333;
+        }
+
+        /* Error message styling */
+        #error-message {
+            display: none;
+            color: red;
+            font-size: 16px;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        /* Hidden class for elements that are not visible initially */
+        .hidden {
+            display: none;
+        }
+
+        /* Ascii art styling */
+        .ascii-tree {
+            font-family: monospace;
+            white-space: pre;
+            font-size: 18px;
+            color: #008000;
+        }
+
+        /* Smooth fade-in effect */
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive design for mobile screens */
+        @media (max-width: 600px) {
+            .message-box, .input-box {
+                width: 80%;
+            }
+
+            .ascii-tree {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay"></div>
+
+    <div class="message-box fade-in">
+        <p id="welcome-message">Merry Christmas<3</p>
+    </div>
+
+    <div class="input-box fade-in">
+        <label for="nameInput">Enter your name (all caps, no spaces, no special characters):</label><br>
+        <input type="text" id="nameInput" placeholder="Your Name" maxlength="20">
+        <p id="error-message" style="color: red; display: none;">Please enter a valid name (uppercase, no spaces, no special characters).</p>
+    </div>
+
+    <div id="userPage" class="hidden">
+        <div class="ascii-tree">
+            <pre>
+            * 
+           *O*
+          *+o+* 
+         *+*+*+* 
+        *+o+*+*+* 
+            </pre>
+        </div>
+        <p id="personalized-message" class="fade-in"></p>
+    </div>
+
+    <script>
+        window.onload = function() {
+            // Fade in the welcome message
+            const welcomeMessage = document.getElementById('welcome-message');
+            const overlay = document.querySelector('.overlay');
+            const messageBox = document.querySelector('.message-box');
+            const inputBox = document.querySelector('.input-box');
+            const errorMessage = document.getElementById('error-message');
+
+            messageBox.style.display = 'block';
+            setTimeout(() => {
+                overlay.style.opacity = '1'; // Fade in the background shadow
+                setTimeout(() => {
+                    // Fade out the welcome message after 5 seconds
+                    welcomeMessage.style.opacity = '0';
+                    setTimeout(() => {
+                        // Show the input box after the message fades out
+                        inputBox.style.display = 'block';
+                    }, 500);
+                }, 5000);
+            }, 1000);
+
+            // Check input and navigate to personalized page
+            const nameInput = document.getElementById('nameInput');
+            nameInput.addEventListener('input', function() {
+                const userName = nameInput.value.toUpperCase();
+                if (userName) {
+                    if (validateName(userName)) {
+                        errorMessage.style.display = 'none'; // Hide error if name is valid
+                        setTimeout(() => {
+                            showUserPage(userName);
+                        }, 1000);
+                    } else {
+                        errorMessage.style.display = 'block'; // Show error if name is invalid
+                    }
+                }
+            });
+        };
+
+        // Validate the entered name (all caps, no special characters or spaces)
+        function validateName(name) {
+            const regex = /^[A-Z]+$/; // Only uppercase letters allowed
+            return regex.test(name);
+        }
+
+        // Show the personalized page based on the name
+        function showUserPage(name) {
+            const userPage = document.getElementById('userPage');
+            const personalizedMessage = document.getElementById('personalized-message');
+            const validNames = {
+                SIMAR: "Simar, you are so pretty inside and out, and I love you so much as my friend. CRAZYY how we got sooo close in less than a year. ilyy. You’ve made this year absolutely wonderful, and I’m so grateful to have you in my life! Merry Christmas once again! 🎄❤️",
+                SHREYA: "HII, can you believe we’ve survived almost 3 years together? Through every laugh, tear, and crazy moment, you’ve been my constant, and I can’t imagine my life without you. You’re one of the most important people in my world, and I never, ever want to leave your side. Merry Christmas again, Shreya! 🎄❤️",
+                ADITYA: "Aditya, you’ve been a big ass nigga for 3 years straight, always getting what you want and driving me insane. But somehow, I still fw you heavy and miss having you around, bro. hope we meet soon :) Merry Christmas again! 🎄🔥",
+                NGAYOMI: "Ngayomi, how did we even get this close in less than a year? You’re literally so hot and gorgeous—it’s unfair, honestly—and I love you fr. Just know I’ll always care for you, no matter what. Merry Christmas again! 🎄❤️",
+                BHAVYA: "Bhavya, how did we get so close in less than a year? You’re literally the cutest, and I love you . Just know I’ll always care for you, no matter what. Merry Christmas again! 🎄❤️",
+                KHUSHI: "Khushi, I can’t believe we just became friends this year—it feels like we’ve known each other forever! You’re so pretty, and Ilysm you lit so hot xx. Merry Christmas again! 🎄❤️",
+                JION: "Jion, it’s crazy that we met just last year, but you’ve become like my own brother. No matter what, through thick and thin, I’ll always be there for you—you can trust me with anything. I got your back, always. Love you, dawg. Merry Christmas again! 🎄🤍",
+                JOYNA: "Joyna, you’re absolutely gorgeous and hilarious—never a dull moment with you! I’m so lucky to have you in my life. Merry Christmas again! 🎄❤️",
+                NIRUPUMA: "Nirupuma, you're so fine and so pretty! I love you, and even though we met last year, it feels like I’ve known you forever. I miss you so much since you go to a different school, but I’ll always be there for you. Hope we can meet again soon! Merry Christmas again! 🎄❤️",
+                SAMARA: "Samara, you're absolutely stunning and such a vibe! I’m so grateful we met last year, and I’m lucky we’re in the same school. You mean a lot to me, and I’ll always have your back no matter what. Merry Christmas again! 🎄❤️",
+                SANGEETA: "Mama, you’re the most beautiful, loving, and amazing person in my life. I’m so grateful for everything you do and the endless love you give. I love you more than words can say, and I’ll always be here for you. Merry Christmas again! 🎄❤️",
+                NEWTON: "Papa, you’re my rock and my biggest supporter. I’m so grateful for everything you’ve done for me, and I love you more than words can express. I’ll always cherish and look up to you. Merry Christmas again! 🎄❤️",
+                PHILBERT: "hiiiiii tuky! youre honestly the besttt brother anyone can ask for, and I wouldn’t have it any other way. Thanks for always being there, even when we’re driving each other crazy and have silly fights. i love playing games with you and always will do. Love you lots and always got your back. Merry Christmas again! 🎄❤️",
+            };
+
+            if (validNames[name]) {
+                personalizedMessage.textContent = validNames[name];
+                userPage.classList.remove('hidden');
+                userPage.classList.add('fade-in');
+            }
+        }
+    </script>
+</body>
+</html>
